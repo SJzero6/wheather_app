@@ -38,6 +38,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   google_fonts: ^3.0.1
   flutter_animated_button: ^2.0.2
+  http: ^0.13.5
+  geolocator: ^9.0.2
 
 dev_dependencies:
   flutter_test:
@@ -63,15 +65,10 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-     - Raining-bro.png
-     - Raining.gif
-     - Sun-PNG-Clipart.png
-     - 7137989.png
-     - wind.png
-     - humid.png
+    - assets/
      
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+    # - images/a_dot_burr.jpeg
+    # - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

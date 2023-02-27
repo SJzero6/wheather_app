@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:wheather_app/constants.dart';
+import 'package:wheather_app/home.dart';
 import 'package:wheather_app/login.dart';
 
 void main(List<String> args) {
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: kBackgroundcolor,
           textTheme:
               Theme.of(context).textTheme.apply(bodyColor: kprimarycolor)),
-      home: Login(),
+      home: Homepage(),
       debugShowCheckedModeBanner: false,
     );
   }

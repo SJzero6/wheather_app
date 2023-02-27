@@ -63,7 +63,7 @@ class _LoginState extends State<Login> {
                     children: [
                       Container(
                         child: Image.asset(
-                          'Raining-bro.png',
+                          'assets/Raining-bro.png',
                           height: 200,
                           width: 200,
                         ),
