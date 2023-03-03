@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'package:flutter_animated_button/flutter_animated_button.dart';
@@ -6,6 +8,7 @@ import 'package:wheather_app/animations/homeanimation.dart';
 import 'package:wheather_app/animations/newanimation.dart';
 import 'package:wheather_app/home.dart';
 import 'package:wheather_app/register.dart';
+import 'package:http/http.dart' as http;
 
 class Login extends StatefulWidget {
   Login({Key? key}) : super(key: key);
@@ -37,8 +40,8 @@ class _LoginState extends State<Login> {
 /////////////////////topcontainer///////////////////////
 
   //controller.................................
-  final usercontroller = TextEditingController();
-  final passcontroller = TextEditingController();
+  final usercontroller = TextEditingController(text: " ");
+  final passcontroller = TextEditingController(text: " ");
   //controller..................................
 
   @override
@@ -124,29 +127,7 @@ class _LoginState extends State<Login> {
                       Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: AnimatedButton(
-                          onPress: () {
-                            String username = usercontroller.text;
-                            String password = passcontroller.text;
-                            if (username.isEmpty && password.isEmpty) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      content:
-                                          Text(' Username OR Password empty')));
-
-                              return;
-                            }
-
-                            if (username == 'admin' && password == 'admin123') {
-                              Navigator.push(context, Homebouncy());
-
-                              print('login sucess');
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      content: Text(
-                                          'username or password incorrect')));
-                            }
-                          },
+                          onPress: Login,
                           height: 40,
                           width: 150,
                           text: 'LOGIN',
@@ -178,5 +159,39 @@ class _LoginState extends State<Login> {
         ),
       ),
     );
+  }
+
+  Future<void> Login() async {
+    if (usercontroller.text.isEmpty || passcontroller.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Enter all the fields'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    var res = await http.post(
+        Uri.parse('http://192.168.29.228:3000/api/auth/login'),
+        body: <String, String>{
+          'username': usercontroller.text,
+          'password': passcontroller.text
+        });
+    print(res.body);
+
+    var mes = json.decode(res.body);
+    if (res.statusCode == 201) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Homepage(),
+          ));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('login success')));
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(mes["error"])));
+    }
   }
 }

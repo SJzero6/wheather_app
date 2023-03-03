@@ -1,8 +1,13 @@
+import 'dart:convert';
+
+import 'package:auth/auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'package:flutter_animated_button/flutter_animated_button.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wheather_app/animations/homeanimation.dart';
+import 'package:http/http.dart' as http;
+import 'package:wheather_app/login.dart';
 
 class Register extends StatefulWidget {
   Register({Key? key}) : super(key: key);
@@ -31,13 +36,15 @@ class _LoginState extends State<Register> {
       ),
     );
   }
-  ///////////////////////topcontainer/////////////////////
 
+  ///////////////////////topcontainer////////////// ///////
   //controller.................................
-  final usercontroller = TextEditingController();
-  final passcontroller = TextEditingController();
-  final confirmconroller = TextEditingController();
+
+  final usercontroller = TextEditingController(text: "");
+  final passcontroller = TextEditingController(text: "");
+  final confirmconroller = TextEditingController(text: "");
   //controller..................................
+
   @override
   Widget build(BuildContext context) {
     final screensize = MediaQuery.of(context).size;
@@ -135,7 +142,7 @@ class _LoginState extends State<Register> {
                               child: TextField(
                                   controller: confirmconroller,
                                   decoration: InputDecoration(
-                                    hintText: ' Password',
+                                    hintText: 'Confirm Password',
                                     suffixIcon: Icon(
                                       Icons.visibility,
                                       size: 25,
@@ -161,30 +168,10 @@ class _LoginState extends State<Register> {
                             Padding(
                               padding: const EdgeInsets.all(10.0),
                               child: AnimatedButton(
-                                onPress: () {
-                                  String username = usercontroller.text;
-                                  String password = passcontroller.text;
-                                  String confirm = confirmconroller.text;
-                                  if (username.length < 5 &&
-                                      password.length < 5) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(
-                                            content: Text(
-                                                'username or password must be more than 5 character')));
-                                    return;
-                                  }
-                                  if (confirm == password) {
-                                    Navigator.push(context, Homebouncy());
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(
-                                            content:
-                                                Text('password is not match')));
-                                  }
-                                },
+                                onPress: Register,
                                 height: 40,
                                 width: 150,
-                                text: 'LOGIN',
+                                text: 'REGISTER',
                                 isReverse: true,
                                 selectedBackgroundColor:
                                     Color.fromARGB(255, 167, 125, 216),
@@ -206,5 +193,50 @@ class _LoginState extends State<Register> {
         ),
       ),
     );
+  }
+
+  Future<void> Register() async {
+    if (usercontroller.text.isEmpty ||
+        passcontroller.text.isEmpty ||
+        confirmconroller.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Enter all the fields'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    if (passcontroller.text != confirmconroller.text) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Passwords do not match'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+    var response = await http.post(
+        Uri.parse('http://192.168.29.228:3000/api/auth/register'),
+        body: <String, String>{
+          'username': usercontroller.text,
+          'password': passcontroller.text
+        });
+    print(response.body);
+
+    var body = json.decode(response.body);
+    if (response.statusCode == 201) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Login(),
+          ));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('success')));
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(body["message"])));
+    }
   }
 }
