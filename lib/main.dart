@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:wheather_app/constants.dart';
-import 'package:wheather_app/home.dart';
-import 'package:wheather_app/login.dart';
+import 'package:wheather_app/constants/constants.dart';
+import 'package:wheather_app/screens/home.dart';
+import 'package:wheather_app/screens/login.dart';
 
 void main(List<String> args) {
   SystemChrome.setSystemUIOverlayStyle(
