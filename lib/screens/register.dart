@@ -7,7 +7,7 @@ import 'package:flutter_animated_button/flutter_animated_button.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wheather_app/animations/homeanimation.dart';
 import 'package:http/http.dart' as http;
-import 'package:wheather_app/login.dart';
+import 'package:wheather_app/screens/login.dart';
 
 class Register extends StatefulWidget {
   Register({Key? key}) : super(key: key);

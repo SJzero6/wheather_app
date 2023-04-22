@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wheather_app/register.dart';
+import 'package:wheather_app/screens/register.dart';
 
 PageRouteBuilder<dynamic> bouncy() {
   return PageRouteBuilder(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:wheather_app/home.dart';
-import 'package:wheather_app/register.dart';
+import 'package:wheather_app/screens/home.dart';
+import 'package:wheather_app/screens/register.dart';
 
 PageRouteBuilder<dynamic> createRoute() {
   return PageRouteBuilder(

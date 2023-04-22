@@ -5,8 +5,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wheather_app/location.dart';
-import 'package:wheather_app/model%20.dart';
-import 'package:wheather_app/weatherdata.dart';
+import 'package:wheather_app/constants/model%20.dart';
+import 'package:wheather_app/datafetching/weatherdata.dart';
 import 'package:http/http.dart' as http;
 
 class Homepage extends StatefulWidget {
