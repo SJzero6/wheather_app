@@ -6,7 +6,7 @@ import 'package:wheather_app/constants/model%20.dart';
 class weatherdata {
   Future<Weather> getData(var location) async {
     var uricall = Uri.parse(
-        'http://192.168.29.228:3000/api/weather/getweather/$location');
+        'http://192.168.29.152:5000/api/weather/getweather/$location');
     var response = await http.get(uricall);
     var body = jsonDecode(response.body);
     print(response.body);

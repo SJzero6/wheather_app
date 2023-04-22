@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: kBackgroundcolor,
           textTheme:
               Theme.of(context).textTheme.apply(bodyColor: kprimarycolor)),
-      home: Login(),
+      home: Homepage(),
       debugShowCheckedModeBanner: false,
     );
   }
