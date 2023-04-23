@@ -7,6 +7,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:wheather_app/constants/model%20.dart';
 import 'package:wheather_app/datafetching/weatherdata.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import 'package:wheather_app/provider/weatherpro.dart';
 
 class Homepage extends StatefulWidget {
   Homepage({Key? key}) : super(key: key);
@@ -23,14 +25,32 @@ class _HomepageState extends State<Homepage> {
       pressure: 0.0,
       wind: 0.0,
       windDeg: 0.0,
-      feels_like: 0.0);
+      feels_like: 0.0,
+      visibility: 0.0);
 
   String searchTerm = '';
   DateTime currentDate = DateTime.now();
 
+  var hume = 0;
+  var temp = 0;
+
+  @override
+  void initState() {
+    Mqttprovider mqttProvider =
+        Provider.of<Mqttprovider>(context, listen: false);
+    mqttProvider.newAWSConnect();
+    super.initState();
+  }
+
   final _searchcontroller = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    Mqttprovider mqttProvider = Provider.of<Mqttprovider>(context);
+
+    Map<String, dynamic> log = json.decode(mqttProvider.rawLogData);
+
+    hume = log["humidity"] ?? 0;
+    temp = log["temperature"] ?? 0;
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         body: ListView(
@@ -65,37 +85,37 @@ class _HomepageState extends State<Homepage> {
                     Text('${DateFormat('E, dd MMMM ').format(currentDate)}',
                         style: GoogleFonts.boogaloo(
                           textStyle: TextStyle(
-                              fontSize: 30,
+                              fontSize: 20,
                               color: Colors.white.withOpacity(0.9)),
                         )),
                     SizedBox(
-                      height: 10,
+                      height: 5,
                     ),
                     // Image.asset(
                     //   '/Sun-PNG-Clipart.png',
                     //   width: size.width * 0.3,
                     //),
                     Image.network(
-                      'http:${data.icon}',
-                      width: size.width * 0.29,
+                      'https://openweathermap.org/img/wn/${data.icon}@2x.png',
+                      width: size.width * 0.20,
                       fit: BoxFit.fill,
                     ),
                     SizedBox(
-                      height: 5,
+                      height: 0,
                     ),
                     Text('${data.condition}',
                         style: GoogleFonts.adventPro(
                           textStyle: TextStyle(
-                              fontSize: 40,
+                              fontSize: 35,
                               color: Colors.white.withOpacity(0.9)),
                         )),
                     SizedBox(
                       height: 5,
                     ),
-                    Text('34°C',
+                    Text('${temp}°C',
                         style: GoogleFonts.aladin(
                           textStyle: TextStyle(
-                              fontSize: 50,
+                              fontSize: 45,
                               color: Colors.white.withOpacity(0.9)),
                         )),
                     Row(
@@ -104,7 +124,7 @@ class _HomepageState extends State<Homepage> {
                           child: Column(
                             children: [
                               Image.asset(
-                                'assets/wind.png',
+                                'assets/images/wind.png',
                                 width: size.width * 0.18,
                               ),
                               SizedBox(
@@ -130,14 +150,14 @@ class _HomepageState extends State<Homepage> {
                           child: Column(
                             children: [
                               Image.asset(
-                                'assets/humid.png',
+                                'assets/images/humid.png',
                                 width: size.width * 0.18,
                               ),
                               SizedBox(
                                 height: 5,
                               ),
                               Text(
-                                '25%',
+                                '${hume}%',
                                 style: TextStyle(
                                     fontSize: 14, color: Colors.white),
                               ),
@@ -156,14 +176,14 @@ class _HomepageState extends State<Homepage> {
                           child: Column(
                             children: [
                               Image.asset(
-                                'assets/pressure.png',
+                                'assets/images/pressure.png',
                                 width: size.width * 0.18,
                               ),
                               SizedBox(
                                 height: 5,
                               ),
                               Text(
-                                '${data.pressure}',
+                                '${data.pressure} hpa',
                                 style: TextStyle(
                                     fontSize: 14, color: Colors.white),
                               ),
@@ -207,7 +227,7 @@ class _HomepageState extends State<Homepage> {
                         height: 50,
                       ),
                       Text(
-                        'UV',
+                        'Visibility',
                         style: TextStyle(
                             fontSize: 18, color: Colors.white.withOpacity(0.7)),
                       ),
@@ -215,7 +235,7 @@ class _HomepageState extends State<Homepage> {
                         height: 10,
                       ),
                       Text(
-                        'uv',
+                        "${data.visibility}",
                         style: TextStyle(fontSize: 25, color: Colors.white),
                       ),
                     ],
@@ -239,7 +259,7 @@ class _HomepageState extends State<Homepage> {
                         height: 50,
                       ),
                       Text(
-                        'PRECIPITATION',
+                        'FEELS LIKE',
                         style: TextStyle(
                             fontSize: 18, color: Colors.white.withOpacity(0.7)),
                       ),
