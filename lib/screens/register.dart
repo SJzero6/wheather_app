@@ -218,7 +218,7 @@ class _LoginState extends State<Register> {
       return;
     }
     var response = await http.post(
-        Uri.parse('http://192.168.29.228:3000/api/auth/register'),
+        Uri.parse('http://192.168.29.152:5000/api/auth/register'),
         body: <String, String>{
           'username': usercontroller.text,
           'password': passcontroller.text

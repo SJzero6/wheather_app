@@ -42,6 +42,7 @@ class _LoginState extends State<Login> {
   //controller.................................
   final usercontroller = TextEditingController(text: " ");
   final passcontroller = TextEditingController(text: " ");
+  bool _is_hidden = true;
   //controller..................................
 
   @override
@@ -66,7 +67,7 @@ class _LoginState extends State<Login> {
                     children: [
                       Container(
                         child: Image.asset(
-                          'assets/Raining-bro.png',
+                          'assets/images/Raining-bro.png',
                           height: 200,
                           width: 200,
                         ),
@@ -98,14 +99,23 @@ class _LoginState extends State<Login> {
                       Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: TextField(
-                          obscureText: true,
+                          obscureText: _is_hidden,
                           controller: passcontroller,
                           textInputAction: TextInputAction.done,
                           decoration: InputDecoration(
                               hintText: 'Password',
-                              suffixIcon: Icon(
-                                Icons.visibility,
-                                size: 25,
+                              suffixIcon: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _is_hidden = !_is_hidden;
+                                  });
+                                },
+                                icon: Icon(
+                                  _is_hidden
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                  size: 25,
+                                ),
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderSide:
@@ -173,7 +183,7 @@ class _LoginState extends State<Login> {
     }
 
     var res = await http.post(
-        Uri.parse('http://192.168.29.228:3000/api/auth/login'),
+        Uri.parse('http://192.168.29.152:5000/api/auth/login'),
         body: <String, String>{
           'username': usercontroller.text,
           'password': passcontroller.text
@@ -181,7 +191,7 @@ class _LoginState extends State<Login> {
     print(res.body);
 
     var mes = json.decode(res.body);
-    if (res.statusCode == 201) {
+    if (res.statusCode == 200) {
       Navigator.push(
           context,
           MaterialPageRoute(
