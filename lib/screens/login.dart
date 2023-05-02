@@ -9,6 +9,7 @@ import 'package:wheather_app/animations/newanimation.dart';
 import 'package:wheather_app/screens/home.dart';
 import 'package:wheather_app/screens/register.dart';
 import 'package:http/http.dart' as http;
+import 'package:wheather_app/constants/constants.dart';
 
 class Login extends StatefulWidget {
   Login({Key? key}) : super(key: key);
@@ -40,8 +41,8 @@ class _LoginState extends State<Login> {
 /////////////////////topcontainer///////////////////////
 
   //controller.................................
-  final usercontroller = TextEditingController(text: " ");
-  final passcontroller = TextEditingController(text: " ");
+  final usercontroller = TextEditingController(text: "");
+  final passcontroller = TextEditingController(text: "");
   bool _is_hidden = true;
   //controller..................................
 
@@ -183,7 +184,7 @@ class _LoginState extends State<Login> {
     }
 
     var res = await http.post(
-        Uri.parse('http://192.168.29.152:5000/api/auth/login'),
+        Uri.parse('http://${serverIP}:5000/api/auth/login'),
         body: <String, String>{
           'username': usercontroller.text,
           'password': passcontroller.text

@@ -1,5 +1,5 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
-
+import 'package:wheather_app/constants/constants.dart';
 import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
@@ -95,11 +95,17 @@ class _HomepageState extends State<Homepage> {
                     //   '/Sun-PNG-Clipart.png',
                     //   width: size.width * 0.3,
                     //),
-                    Image.network(
-                      'https://openweathermap.org/img/wn/${data.icon}@2x.png',
-                      width: size.width * 0.20,
-                      fit: BoxFit.fill,
-                    ),
+                    data.icon.isEmpty
+                        ? Image.network(
+                            'https://mir-s3-cdn-cf.behance.net/project_modules/disp/d58eb146152113.584973d61bdcf.gif',
+                            width: size.width * 0.20,
+                            fit: BoxFit.fill,
+                          )
+                        : Image.network(
+                            'https://openweathermap.org/img/wn/${data.icon}@2x.png',
+                            width: size.width * 0.30,
+                            fit: BoxFit.fill,
+                          ),
                     SizedBox(
                       height: 0,
                     ),
@@ -112,7 +118,7 @@ class _HomepageState extends State<Homepage> {
                     SizedBox(
                       height: 5,
                     ),
-                    Text('${temp}°C',
+                    Text('${temp.toStringAsFixed(1)}°C',
                         style: GoogleFonts.aladin(
                           textStyle: TextStyle(
                               fontSize: 45,
@@ -352,8 +358,8 @@ class _HomepageState extends State<Homepage> {
   }
 
   Future<Weather> getData(var location) async {
-    var uricall = Uri.parse(
-        'http://192.168.29.152:5000/api/weather/getweather/$location');
+    var uricall =
+        Uri.parse('http://${serverIP}:5000/api/weather/getweather/$location');
     var response = await http.get(uricall);
     var body = jsonDecode(response.body);
     print(response.body);

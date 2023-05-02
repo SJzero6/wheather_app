@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:wheather_app/constants/constants.dart';
 import 'package:auth/auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
@@ -218,7 +218,7 @@ class _LoginState extends State<Register> {
       return;
     }
     var response = await http.post(
-        Uri.parse('http://192.168.29.152:5000/api/auth/register'),
+        Uri.parse('http://${serverIP}:5000/api/auth/register'),
         body: <String, String>{
           'username': usercontroller.text,
           'password': passcontroller.text

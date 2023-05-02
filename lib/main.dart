@@ -7,6 +7,7 @@ import 'package:wheather_app/provider/weatherpro.dart';
 import 'package:wheather_app/screens/home.dart';
 import 'package:wheather_app/screens/login.dart';
 import 'package:provider/provider.dart';
+import 'package:wheather_app/screens/splash.dart';
 
 void main(List<String> args) {
   SystemChrome.setSystemUIOverlayStyle(
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
             scaffoldBackgroundColor: kBackgroundcolor,
             textTheme:
                 Theme.of(context).textTheme.apply(bodyColor: kprimarycolor)),
-        home: Login(),
+        home: Splash(),
         debugShowCheckedModeBanner: false,
       ),
     );
